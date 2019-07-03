@@ -5,21 +5,22 @@ import os
 import random
 import re
 
-import xlrd
 import requests
+import xlrd
 
+from contextlib import closing
+from hashlib import md5
 from io import BytesIO
 from io import StringIO
-from hashlib import md5
-from contextlib import closing
 
-from xml.dom import Node
 
 from pyxform import SurveyElementBuilder
 from pyxform.builder import create_survey_element_from_dict
 from pyxform.utils import has_external_choices
-from pyxform.xls2json import parse_file_to_json
 from pyxform.xform2json import create_survey_element_from_xml
+from pyxform.xls2json import parse_file_to_json
+
+from xml.dom import Node
 
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -931,6 +932,12 @@ class Attachment(models.Model):
             if f_size:
                 self.file_size = f_size
         except (OSError, AttributeError):
+            pass
+
+        try:
+            self.name = self.filename
+            self.extension = self.name.rsplit('.', 1)[1]
+        except Exception:
             pass
 
         super(Attachment, self).save(*args, **kwargs)
