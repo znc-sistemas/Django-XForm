@@ -6,18 +6,18 @@ from xform import enketo_views
 
 urlpatterns = [
     re_path(
-        r'^(?P<id_string>\w+)/enter_data/$',
+        r'^(?P<id_string>[^/]+)/enter_data/$',
         enketo_views.enter_data,
         name='enter_data'
     ),
     re_path(
-        r'^(?P<id_string>\w+)/enter_data/offline/$',
+        r'^(?P<id_string>[^/]+)/enter_data/offline/$',
         enketo_views.enter_data,
         {'offline': True},
         name='enter_data_offline'
     ),
     re_path(
-        r'^(?P<id_string>\w+)/edit_data/(?P<data_id>\d+)/$',
+        r'^(?P<id_string>[^/]+)/edit_data/(?P<data_id>\d+)/$',
         enketo_views.edit_data,
         name='edit_data'
     ),
@@ -59,7 +59,7 @@ urlpatterns = [
         views.XFormSubmissionView.as_view(),
         name='submissions'),
     re_path(
-        r'^(?P<username>\w+)/(?P<id_string>\w+)/edit/$',
+        r'^(?P<username>\w+)/(?P<id_string>[^/]+)/edit/$',
         views.edit,
         name='xform_edit'),
 ]
