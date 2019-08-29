@@ -28,7 +28,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GeometryCollection, Point
-from django.contrib.postgres.fields import JSONField
+
 from django.core.exceptions import ValidationError
 from django.core.files.temp import NamedTemporaryFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -48,6 +48,11 @@ from .utils import (
     clean_and_parse_xml, get_numeric_fields, numeric_checker,
     _get_tag_or_element_type_xpath, calculate_duration
 )
+
+if 'mysql' in settings.DATABASES['default']['ENGINE']:
+    from jsonfield import JSONField
+else:
+    from django.contrib.postgres.fields import JSONField
 
 CHUNK_SIZE = 1024
 XFORM_TITLE_LENGTH = 255
