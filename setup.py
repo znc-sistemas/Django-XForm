@@ -16,7 +16,7 @@ def get_version(package):
 setup(
     name='djangoxform',
     version=get_version('xform'),
-    url='https://github.com/zokis/Django-XForm',
+    url='https://github.com/znc-sistemas/Django-XForm',
     license='MIT',
     description='OpenRosa for Django.',
     long_description=read('README.md'),
