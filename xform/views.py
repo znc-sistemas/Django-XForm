@@ -79,7 +79,7 @@ class EnketoODKAuthMixin(object):
     def get_authenticators(self):
         try:
             # check if you are the User-Agent of ODK
-            # https://github.com/opendatakit/collect/blob/master/collect_app/src/main/java/org/odk/collect/android/http/HttpClientConnection.java#L548
+            # https://github.com/opendatakit/collect/blob/81b105cef60a113efd1954d782648219ec4733e6/collect_app/src/main/java/org/odk/collect/android/application/Collect.java#L221
             if 'org.odk.collect.android' in self.request.META['HTTP_USER_AGENT']:
                 return [BasicAuthentication()]
         except Exception:
@@ -181,20 +181,7 @@ class XFormListViewSet(EnketoODKAuthMixin, viewsets.ReadOnlyModelViewSet):
         if isinstance(qs_filter, str):
             module_name, function_name = qs_filter.rsplit(".", 1)
             qs_filter = get_from_module(module_name, function_name)
-
-        res = qs_filter(qs, self.request.user)
-
-        # res_list = list(res)
-        # cookies = self.request.COOKIES
-        # user = self.request.user
-        # try:
-        #     raise Exception('OpenRosa formList')
-        # except Exception:
-        #     if settings.SENTRY_DSN:
-        #         import sentry_sdk
-        #         sentry_sdk.capture_exception()
-
-        return res
+        return qs_filter(qs, self.request)
 
     def get_object(self):
         queryset = self.filter_queryset(self.get_queryset())
