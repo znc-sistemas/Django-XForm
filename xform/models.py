@@ -724,9 +724,9 @@ class Instance(models.Model):
 
     @property
     def attachments_count(self):
-        return self.attachments.filter(
+        return len(set(self.attachments.filter(
             name__in=self.get_expected_media()
-        ).distinct('name').order_by('name').count()
+        ).values_list('name', flat=True)))
 
     def get_expected_media(self):
         """
