@@ -22,7 +22,7 @@ urlpatterns = [
         name='edit_data'
     ),
     re_path(
-        r'^(?P<username>[^/]+)/$',
+        r'^(?P<username>[-[^.-]+]+)/$',
         views.profile,
         name='user_profile'
     ),
@@ -31,11 +31,11 @@ urlpatterns = [
         views.XFormListViewSet.as_view({'get': 'list', 'head': 'list'}),
         name='form-list'),
     re_path(
-        r'^(?P<username>\w+)/xformsManifest/(?P<pk>[\d+^/]+)$',
+        r'^(?P<username>[-\w.-]+)/xformsManifest/(?P<pk>[\d+^/]+)$',
         views.XFormListViewSet.as_view({'get': 'manifest', 'head': 'manifest'}),
         name='manifest-url'),
     re_path(
-        r'^(?P<username>\w+)/forms/(?P<pk>[\d+^/]+)/form\.xml$',
+        r'^(?P<username>[-\w.-]+)/forms/(?P<pk>[\d+^/]+)/form\.xml$',
         views.XFormListViewSet.as_view({'get': 'retrieve', 'head': 'retrieve'}),
         name='download_xform'),
     re_path(
@@ -43,11 +43,11 @@ urlpatterns = [
         views.XFormListViewSet.as_view({'get': 'media', 'head': 'media'}),
         name='xform-media'),
     re_path(
-        r'^(?P<username>\w+)/xformsMedia/(?P<pk>[\d+^/]+)/(?P<metadata>[\d+^/.]+)$',
+        r'^(?P<username>[-\w.-]+)/xformsMedia/(?P<pk>[\d+^/]+)/(?P<metadata>[\d+^/.]+)$',
         views.XFormListViewSet.as_view({'get': 'media', 'head': 'media'}),
         name='xform-media'),
     re_path(
-        r'^(?P<username>\w+)/xformsMedia/(?P<pk>[\d+^/]+)/(?P<metadata>[\d+^/.]+)\.(?P<format>([a-z]|[0-9])*)$',
+        r'^(?P<username>[-\w.-]+)/xformsMedia/(?P<pk>[\d+^/]+)/(?P<metadata>[\d+^/.]+)\.(?P<format>([a-z]|[0-9])*)$',
         views.XFormListViewSet.as_view({'get': 'media', 'head': 'media'}),
         name='xform-media'),
     re_path(
@@ -59,7 +59,7 @@ urlpatterns = [
         views.XFormSubmissionView.as_view(),
         name='submissions'),
     re_path(
-        r'^(?P<username>\w+)/(?P<id_string>[^/]+)/edit/$',
+        r'^(?P<username>[-\w.-]+)/(?P<id_string>[^/]+)/edit/$',
         views.edit,
         name='xform_edit'),
 ]
