@@ -1,5 +1,4 @@
 import json
-import importlib
 
 # from pyxform.xls2json import parse_file_to_json
 from pyxform.builder import create_survey_element_from_dict
@@ -45,11 +44,6 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 
     def enforce_csrf(self, request):
         return  # To not perform the csrf check previously happening
-
-
-def get_from_module(module_name, function_name):
-    module = importlib.import_module(module_name)
-    return getattr(module, function_name)
 
 
 class IsAuthenticatedSubmission(BasePermission):
