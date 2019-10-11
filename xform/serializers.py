@@ -11,7 +11,7 @@ from rest_framework.reverse import reverse
 from .models import MetaData
 from .safe_create_instance import safe_create_instance
 from .tags import GROUP_DELIMETER_TAG, REPEAT_INDEX_TAGS
-from .utils import get_file_extension
+from .utils import get_file_extension, get_from_module
 
 
 def get_request_and_username(context):
@@ -172,5 +172,10 @@ class SubmissionSerializer(SubmissionSuccessMixin, serializers.Serializer):
             exc.status_code = error.status_code
 
             raise exc
+
+        for f in getattr(settings, 'XFORM_POST_SAVE_INSTANCES', []):
+            module_name, function_name = f.rsplit(".", 1)
+            function = get_from_module(module_name, function_name)
+            function(instance)
 
         return instance
