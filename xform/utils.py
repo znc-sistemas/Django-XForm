@@ -1,4 +1,5 @@
 import datetime
+import importlib
 import json
 import logging
 import math
@@ -709,3 +710,8 @@ def get_form_url(
     if preview:
         url = '%s/preview' % url
     return "{}/xform".format(url)
+
+
+def get_from_module(module_name, function_name):
+    module = importlib.import_module(module_name)
+    return getattr(module, function_name)

@@ -1,5 +1,4 @@
 import json
-import importlib
 
 # from pyxform.xls2json import parse_file_to_json
 from pyxform.builder import create_survey_element_from_dict
@@ -35,7 +34,7 @@ from .renderers import MediaFileContentNegotiation
 from .renderers import XFormManifestRenderer, XFormListRenderer
 from .serializers import XFormListSerializer, SubmissionSerializer, XFormManifestSerializer
 from .tags import GROUP_DELIMETER_TAG, REPEAT_INDEX_TAGS
-from .utils import get_media_file_response, publish_form
+from .utils import get_media_file_response, publish_form, get_from_module
 
 
 Usuario = get_user_model()
@@ -45,11 +44,6 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 
     def enforce_csrf(self, request):
         return  # To not perform the csrf check previously happening
-
-
-def get_from_module(module_name, function_name):
-    module = importlib.import_module(module_name)
-    return getattr(module, function_name)
 
 
 class IsAuthenticatedSubmission(BasePermission):
