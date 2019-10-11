@@ -12,6 +12,7 @@ from .models import MetaData
 from .safe_create_instance import safe_create_instance
 from .tags import GROUP_DELIMETER_TAG, REPEAT_INDEX_TAGS
 from .utils import get_file_extension
+from . import views
 
 
 def get_request_and_username(context):
@@ -172,5 +173,11 @@ class SubmissionSerializer(SubmissionSuccessMixin, serializers.Serializer):
             exc.status_code = error.status_code
 
             raise exc
+
+        if settings.XFORM_CALLABLES:
+            for f in settings.XFORM_CALLABLES:
+                module_name, function_name = f.rsplit(".", 1)
+                function = views.get_from_module(module_name, function_name)
+                function(instance)
 
         return instance
