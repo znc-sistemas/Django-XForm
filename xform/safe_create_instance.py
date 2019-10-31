@@ -5,6 +5,7 @@ from dateutil import parser as pdt
 from hashlib import sha256
 from xml.parsers.expat import ExpatError
 
+from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned, PermissionDenied
 from django.db import IntegrityError, transaction, DataError
 from django.db.models import Q
@@ -19,6 +20,7 @@ from .openrosaresponse import OpenRosaResponseForbidden
 from .openrosaresponse import OpenRosaResponseNotAllowed
 from .openrosaresponse import OpenRosaResponseNotFound
 from .utils import get_uuid_from_xml, get_meta_from_xml, clean_and_parse_xml
+from .utils import get_from_module
 from .utils import (
     DuplicateInstance, InstanceInvalidUserError, InstanceMultipleNodeError,
     InstanceEmptyError, NonUniqueFormIdError, FormIsMergedDatasetError,
@@ -158,12 +160,18 @@ def save_attachments(xform, instance, media_files):
             filename in instance.get_expected_media() or
             instance.xml.find(filename) != -1)
         if media_in_submission:
-            Attachment.objects.get_or_create(
+            attachment, _ = Attachment.objects.get_or_create(
                 instance=instance,
                 media_file=f,
                 mimetype=content_type,
                 name=filename,
                 extension=extension)
+
+            for f in getattr(settings, 'XFORM_POST_SAVE_ATTACHMENTS', []):
+                module_name, function_name = f.rsplit(".", 1)
+                function = get_from_module(module_name, function_name)
+                function(attachment)
+
     update_attachment_tracking(instance)
 
 
