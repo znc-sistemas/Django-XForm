@@ -197,6 +197,7 @@ def _get_instance(xml, new_uuid, submitted_by, status, xform, checksum):
     if old_uuid:
         instance = Instance.objects.filter(uuid=old_uuid,
                                            xform_id=xform.pk).first()
+        instance.current_user = submitted_by
         if instance:
             # edits
             last_edited = timezone.now()
@@ -212,6 +213,7 @@ def _get_instance(xml, new_uuid, submitted_by, status, xform, checksum):
             xml=xml, user=submitted_by, status=status, xform=xform,
             checksum=checksum)
         instance.skip_signal = False
+        instance.current_user = submitted_by
         instance.save()
     return instance
 
@@ -296,6 +298,7 @@ def create_instance(
             instance.save()
 
         instance = DuplicateInstance()
+
     return instance
 
 
