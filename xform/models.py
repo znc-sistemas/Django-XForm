@@ -280,7 +280,7 @@ class XForm(models.Model):
 
     def _id_string_already_exists_in_account(self, id_string):
         try:
-            XForm.objects.get(user=self.user, id_string__iexact=id_string)
+            XForm.objects.get(id_string__iexact=id_string)
         except XForm.DoesNotExist:
             return False
 
