@@ -29,7 +29,7 @@ from rest_framework.settings import api_settings
 # from .authentication import DigestAuthentication
 from .forms import QuickConverter
 from .models import XForm, MetaData, check_version_set
-from .openrosaresponse import OpenRosaResponseBadRequest
+from .openrosaresponse import OpenRosaResponseBadRequest, OPEN_ROSA_ACCEPT_CONTENT_LENGTH
 from .renderers import MediaFileContentNegotiation
 from .renderers import XFormManifestRenderer, XFormListRenderer
 from .serializers import XFormListSerializer, SubmissionSerializer, XFormManifestSerializer
@@ -105,7 +105,7 @@ def get_openrosa_headers(request, location=True):
     data = {
         'Date': now.strftime('%a, %d %b %Y %H:%M:%S %Z'),
         'X-OpenRosa-Version': '1.0',
-        'X-OpenRosa-Accept-Content-Length': 10000000
+        'X-OpenRosa-Accept-Content-Length': OPEN_ROSA_ACCEPT_CONTENT_LENGTH
     }
 
     if location:

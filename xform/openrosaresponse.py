@@ -1,9 +1,11 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.utils import timezone
 
 OPEN_ROSA_VERSION_HEADER = 'X-OpenRosa-Version'
 OPEN_ROSA_VERSION = '1.0'
 DEFAULT_CONTENT_TYPE = 'text/xml; charset=utf-8'
+OPEN_ROSA_ACCEPT_CONTENT_LENGTH = getattr(settings, 'OPEN_ROSA_ACCEPT_CONTENT_LENGTH', 10000000)
 
 
 class BaseOpenRosaResponse(HttpResponse):
@@ -16,7 +18,7 @@ class BaseOpenRosaResponse(HttpResponse):
 
         dt = timezone.now().strftime('%a, %d %b %Y %H:%M:%S %Z')
         self['Date'] = dt
-        self['X-OpenRosa-Accept-Content-Length'] = 10000000
+        self['X-OpenRosa-Accept-Content-Length'] = OPEN_ROSA_ACCEPT_CONTENT_LENGTH
         self['Content-Type'] = DEFAULT_CONTENT_TYPE
 
 
