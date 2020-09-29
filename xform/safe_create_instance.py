@@ -276,7 +276,7 @@ def create_instance(
         with transaction.atomic():
             save_attachments(xform, existing_instance, media_files)
             existing_instance.save(update_fields=['json', 'date_modified'])
-        return DuplicateInstance()
+        return existing_instance
 
     try:
         with transaction.atomic():
