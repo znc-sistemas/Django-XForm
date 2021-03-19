@@ -29,7 +29,7 @@ setup(
         'requests==2.21.0',
         'pyxform==0.13.1',
         'xlrd==1.2.0',
-        'djangorestframework==3.9.2',
+        'djangorestframework==3.11.2',
         'djangorestframework-xml==1.4.0',
     ],
     python_requires=">=3.5",
