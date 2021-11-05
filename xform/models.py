@@ -49,10 +49,10 @@ from .utils import (
     _get_tag_or_element_type_xpath, calculate_duration
 )
 
-if 'mysql' in settings.DATABASES['default']['ENGINE']:
-    from jsonfield import JSONField
-else:
+if 'postg' in settings.DATABASES['default']['ENGINE']:
     from django.contrib.postgres.fields import JSONField
+else:
+    from jsonfield import JSONField
 
 CHUNK_SIZE = 1024
 XFORM_TITLE_LENGTH = 255
@@ -123,7 +123,8 @@ class XForm(models.Model):
     description = models.TextField(default=u'', null=True, blank=True)
     xml = models.TextField()
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='xforms', null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='xforms', null=True, on_delete=models.CASCADE)
 
     id_string = models.SlugField(
         editable=False,
@@ -149,7 +150,8 @@ class XForm(models.Model):
     version = models.CharField(
         max_length=255, null=True, blank=True)
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)
 
     metadata_set = GenericRelation(
         'MetaData',
@@ -493,7 +495,8 @@ def meta_data_upload_to(instance, filename):
 class MetaData(models.Model):
     data_type = models.CharField(max_length=255)
     data_value = models.CharField(max_length=255)
-    data_file = models.FileField(upload_to=meta_data_upload_to, blank=True, null=True)
+    data_file = models.FileField(
+        upload_to=meta_data_upload_to, blank=True, null=True)
     data_file_type = models.CharField(max_length=255, blank=True, null=True)
     file_hash = models.CharField(max_length=50, blank=True, null=True)
     date_created = models.DateTimeField(null=True, auto_now_add=True)
@@ -651,7 +654,8 @@ class Instance(models.Model):
 
     json = JSONField(default=dict, null=False)
     xml = models.TextField()
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='instances', null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='instances', null=True, on_delete=models.CASCADE)
     xform = models.ForeignKey('xform.XForm', null=False,
                               related_name='instances', on_delete=models.CASCADE)
 
@@ -839,7 +843,8 @@ class Instance(models.Model):
             if not self.date_created:
                 self.date_created = timezone.now()
 
-            doc[SUBMISSION_TIME] = self.date_created.strftime('%Y-%m-%dT%H:%M:%S')
+            doc[SUBMISSION_TIME] = self.date_created.strftime(
+                '%Y-%m-%dT%H:%M:%S')
 
             doc[TOTAL_MEDIA] = self.total_media
             doc[MEDIA_COUNT] = self.media_count
