@@ -26,7 +26,7 @@ setup(
     packages=find_packages(exclude=['tests*']),
     include_package_data=True,
     install_requires=[
-        'requests==2.21.0',
+        'requests==2.31.0',
         'pyxform==0.13.1',
         'xlrd==1.2.0',
         'djangorestframework==3.12.2',
